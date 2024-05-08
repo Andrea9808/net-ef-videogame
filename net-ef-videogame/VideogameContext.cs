@@ -9,7 +9,8 @@ namespace net_ef_videogame
 {
     public class VideogameContext : DbContext
     {
-        public DbSet<Videogame> videogames {  get; set; }
+
+        public DbSet<Videogame> videogames { get; set; }
         public DbSet<Software_House> software_houses { get; set; }
 
 
@@ -17,5 +18,10 @@ namespace net_ef_videogame
         {
             optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=db-MyVideogames;Integrated Security=True;Trust Server Certificate=True");
         }
+
     }
 }
+
+
+
+

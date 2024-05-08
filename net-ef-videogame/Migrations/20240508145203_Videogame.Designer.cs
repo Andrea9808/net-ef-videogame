@@ -12,7 +12,7 @@ using net_ef_videogame;
 namespace net_ef_videogame.Migrations
 {
     [DbContext(typeof(VideogameContext))]
-    [Migration("20240508125408_Videogame")]
+    [Migration("20240508145203_Videogame")]
     partial class Videogame
     {
         /// <inheritdoc />
@@ -33,38 +33,33 @@ namespace net_ef_videogame.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HouseID"));
 
-                    b.Property<int>("VideogameID")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("_created_at")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("_updated_at")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("city")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("videogame_city");
+                        .HasColumnName("software_house_city");
 
                     b.Property<string>("country")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("videogame_country");
-
-                    b.Property<DateTime>("created_at")
-                        .HasColumnType("datetime2");
+                        .HasColumnName("software_house_country");
 
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("videogame_name");
+                        .HasColumnName("software_house_name");
 
                     b.Property<string>("tax_id")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("videogame_tax_id");
-
-                    b.Property<DateTime>("updated_at")
-                        .HasColumnType("datetime2");
+                        .HasColumnName("software_house_tax_id");
 
                     b.HasKey("HouseID");
-
-                    b.HasIndex("VideogameID");
 
                     b.HasIndex("tax_id")
                         .IsUnique();
@@ -80,45 +75,50 @@ namespace net_ef_videogame.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VideogameID"));
 
-                    b.Property<DateTime>("created_at")
+                    b.Property<int>("SoftwareHouseID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("_created_at")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("description")
+                    b.Property<string>("_description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("videogame_description");
 
-                    b.Property<string>("name")
+                    b.Property<string>("_name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("videogame_name");
 
-                    b.Property<DateTime>("release")
+                    b.Property<DateTime>("_release")
                         .HasColumnType("datetime2")
                         .HasColumnName("videogame_release");
 
-                    b.Property<DateTime>("updated_at")
+                    b.Property<DateTime>("_updated_at")
                         .HasColumnType("datetime2");
 
                     b.HasKey("VideogameID");
 
+                    b.HasIndex("SoftwareHouseID");
+
                     b.ToTable("videogame");
-                });
-
-            modelBuilder.Entity("net_ef_videogame.Software_House", b =>
-                {
-                    b.HasOne("net_ef_videogame.Videogame", "videogame")
-                        .WithMany("houses")
-                        .HasForeignKey("VideogameID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("videogame");
                 });
 
             modelBuilder.Entity("net_ef_videogame.Videogame", b =>
                 {
-                    b.Navigation("houses");
+                    b.HasOne("net_ef_videogame.Software_House", "SoftwareHouse")
+                        .WithMany("Videogames")
+                        .HasForeignKey("SoftwareHouseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SoftwareHouse");
+                });
+
+            modelBuilder.Entity("net_ef_videogame.Software_House", b =>
+                {
+                    b.Navigation("Videogames");
                 });
 #pragma warning restore 612, 618
         }

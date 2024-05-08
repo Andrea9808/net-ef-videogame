@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,52 +18,77 @@ namespace net_ef_videogame
         [Key] public int VideogameID { get; set; }
 
         [Column("videogame_name")]
-        public string name { get; set; }
+        public string _name { get; set; }
 
         [Column("videogame_description")]
-        public string description { get; set; }
+        public string _description { get; set; }
 
         [Column("videogame_release")]
-        public DateTime release {  get; set; }
+        public DateTime _release {  get; set; }
+        
+        public DateTime _created_at { get; set; } = DateTime.Now;
+        public DateTime _updated_at { get; set; } = DateTime.Now;
 
-        public DateTime created_at { get; set; } = DateTime.Now;
-        public DateTime updated_at { get; set; } = DateTime.Now;
 
+        // Relazione 1 a N: un videogioco appartiene a una sola software house
+        public int SoftwareHouseID { get; set; }
+        public Software_House SoftwareHouse { get; set; }
 
-        //vincolo N a 1
-        public List<Software_House> houses { get; set; }
-
-        /*public Videogame(int Id, string Name, string Description, DateTime Release, DateTime Created_at, DateTime Updated_at)
+        public Videogame()
         {
-            VideogameID = Id;
-            name = Name;
-            description = Description;
-            release = Release;
-        }*/
+
+        }
+
+        public Videogame(int id, string name, string description, DateTime release, DateTime create, DateTime update, int sofware_house_id)
+        {
+            VideogameID = id;
+            _name = name;
+            _description = description;
+            _release = release;
+            _created_at = create;
+            _updated_at = update;
+            SoftwareHouseID = sofware_house_id;
+        }
     }
 
-    [Index(nameof(tax_id), IsUnique = true)]
+    [Index(nameof(_tax_id), IsUnique = true)]
     public class Software_House
     {
         [Key] public int HouseID { get; set; }
 
         [Column("software_house_name")]
-        public string name { get; set; }
+        public string _name { get; set; }
 
-        [Column("software_house_tax_id")]
-        public string tax_id { get; set; }
+        [Column("software_house__tax_id")]
+        public string _tax_id { get; set; }
 
         [Column("software_house_city")]
-        public string city { get; set; }
+        public string _city { get; set; }
 
         [Column("software_house_country")]
-        public string country { get; set; }
-        public DateTime created_at { get; set; } = DateTime.Now;
-        public DateTime updated_at { get; set; } = DateTime.Now;
+        public string _country { get; set; }
+        public DateTime _created_at { get; set; } = DateTime.Now;
+        public DateTime _updated_at { get; set; } = DateTime.Now;
 
 
-        //Vincolo 1 a N
-        public int VideogameID { get; set; }
-        public Videogame videogame { get; set; }
+        // Relazione 1 a N: una software house può avere molti videogiochi
+        public List<Videogame> Videogames { get; set; }
+
+        public Software_House()
+        {
+
+        }
+        public Software_House(string name, string taxID, string city, string country)
+        {
+            _name = name;
+            _tax_id = taxID;
+            _city = city;
+            _country = country;
+            _created_at = DateTime.Now;
+            _updated_at = DateTime.Now;
+
+            Videogames = new List<Videogame>();
+        }
     }
+
 }
