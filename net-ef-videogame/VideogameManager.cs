@@ -10,61 +10,43 @@ namespace net_ef_videogame
     {
 
         //crea il videogioco
-         public static bool CreaVideogioco(string name, string description, DateTime release, int softwareHouseId)
-         {
+        public static bool CreaVideogioco(Videogame nuovoVideogame)
+        {
             using (VideogameContext db = new VideogameContext())
             {
                 try
                 {
-
-                    Videogame nuovoVideogame = new Videogame()
-                    {
-                        _name = name,
-                        _description = description,
-                        _release = release,
-                        SoftwareHouseID = softwareHouseId
-                    };
-
                     db.videogames.Add(nuovoVideogame);
                     db.SaveChanges();
-
                     return true;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"Si è verificato un errore durante la creazione del videogioco: {e.Message}");
                 }
-
                 return false;
             }
-         }
+        }
 
 
         //crea la software house
-        public static bool CreaSoftwareHouse(string name, string taxID, string city, string country)
+        public static bool CreaSoftwareHouse(Software_House nuovaSoftwareHouse)
         {
             using (VideogameContext db = new VideogameContext())
             {
                 try
                 {
-
-                    Software_House nuovaSoftwareHouse = new Software_House(name, taxID, city, country);
-                  
-
                     db.software_houses.Add(nuovaSoftwareHouse);
                     db.SaveChanges();
-
                     return true;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"Si è verificato un errore durante la creazione della Software House: {e.Message}");
                 }
-
                 return false;
             }
         }
-
 
         //verifica l'ID della software house
         public static bool VerificaEsistenzaSoftwareHouse(int softwareHouseId)

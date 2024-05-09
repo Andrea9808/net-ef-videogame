@@ -38,8 +38,15 @@ namespace net_ef_videogame
                         continue; 
                     }
 
+                    Videogame nuovoVideogame = new Videogame()
+                    {
+                        _name = name,
+                        _description = description,
+                        _release = release,
+                        SoftwareHouseID = softwareHouseId
+                    };
 
-                    VideogameManager.CreaVideogioco(name, description, release, softwareHouseId);
+                    VideogameManager.CreaVideogioco(nuovoVideogame);
                     Console.WriteLine("Videogioco creato con successo!");
                 }
                 else if (scelta == "2")
@@ -56,8 +63,15 @@ namespace net_ef_videogame
                     Console.WriteLine("Inserisci il paese della software house:");
                     string country = Console.ReadLine();
 
-                    
-                    VideogameManager.CreaSoftwareHouse(houseName, taxID, city, country);
+                    Software_House nuovaSoftwareHouse = new Software_House()
+                    {
+                        _name = houseName,
+                        _tax_id = taxID,
+                        _city = city,
+                        _country = country
+                    };
+
+                    VideogameManager.CreaSoftwareHouse(nuovaSoftwareHouse);
                     Console.WriteLine("Software House creata con successo!");
                 }
                 else if (scelta == "3")
